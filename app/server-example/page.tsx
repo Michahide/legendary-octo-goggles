@@ -1,9 +1,12 @@
 import CustomLink from "@/components/custom-link"
 import SessionData from "@/components/session-data"
-import { auth } from "auth"
+import { auth, signIn } from "auth"
 
 export default async function Page() {
   const session = await auth()
+  if(!session) {
+    await signIn("keycloak");
+  }
   return (
     <div className="space-y-2">
       <h1 className="text-3xl font-bold">React Server Component Usage</h1>

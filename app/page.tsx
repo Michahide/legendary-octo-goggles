@@ -1,8 +1,12 @@
 import CustomLink from "@/components/custom-link"
 import { auth } from "auth"
+import { signIn } from "next-auth/react"
 
 export default async function Index() {
   const session = await auth()
+  if(!session) {
+    await signIn("keycloak");
+  }
 
   return (
     <div className="flex flex-col gap-6">
@@ -25,11 +29,11 @@ export default async function Index() {
         to still be available after a few days. It is designed to only
         demonstrate registration, login, and logout briefly.
       </div>
-      <div className="flex flex-col rounded-md bg-gray-100">
-        <div className="rounded-t-md bg-gray-200 p-4 font-bold">
+      <div className="flex flex-col bg-gray-100 rounded-md">
+        <div className="p-4 font-bold bg-gray-200 rounded-t-md">
           Current Session
         </div>
-        <pre className="whitespace-pre-wrap break-all px-4 py-6">
+        <pre className="px-4 py-6 break-all whitespace-pre-wrap">
           {JSON.stringify(session, null, 2)}
         </pre>
       </div>
